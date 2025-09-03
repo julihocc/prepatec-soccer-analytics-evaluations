@@ -1,34 +1,35 @@
 #!/usr/bin/env python3
 """
-🚀 QTI GENERATOR - txttoqti v0.3.0 Wrapper
-Minimal wrapper that uses txttoqti-edu CLI for backward compatibility.
+🚀 QTI GENERATOR - txttoqti PyPI Integration
+Direct integration with txttoqti from PyPI for robust QTI conversion.
 
-This script provides the same interface as before but uses the official
-txttoqti v0.3.0 educational module instead of local implementation.
+This script converts text-based question banks to Canvas-compatible QTI packages
+using the official txttoqti library from PyPI.
 
 Features:
-- Same command-line interface for backward compatibility
-- Uses txttoqti v0.3.0 educational auto-detection system
-- Zero maintenance - all functionality handled by txttoqti library
+- Direct Python API integration (no subprocess calls)
+- Uses txttoqti v0.1.2+ from PyPI
+- Automatic file discovery and conversion
+- Smart change detection to avoid unnecessary regeneration
 - Enhanced error handling and validation
 
 Usage:
-    python generar_qti.py [--status] [--force] [--interactive] [--help]
+    python generar_qti.py [--status] [--force] [--help]
     
 Arguments:
     --status        Show current status without conversion
     --force         Force regeneration even if no changes detected
-    --interactive   Enable interactive mode for format validation
     --help          Show help message
 """
 
-import subprocess
 import sys
-import os
 from pathlib import Path
+import argparse
 
+import subprocess
+from typing import Optional
 
-def find_txttoqti_edu():
+def find_txttoqti_edu() -> Optional[str]:
     """Find txttoqti-edu command in virtual environment or system PATH."""
     # Try virtual environment first
     script_dir = Path(__file__).parent
@@ -55,38 +56,89 @@ def find_txttoqti_edu():
     return None
 
 
-def show_help():
-    """Show help message."""
-    print(__doc__)
-
-
-def main():
-    """Main function - wrapper for txttoqti-edu."""
-    
-    # Handle help locally for better messaging
-    if '--help' in sys.argv or '-h' in sys.argv:
-        show_help()
-        return
-    
-    # Find txttoqti-edu command
+def show_status():
+    """Show current status using txttoqti-edu."""
     txttoqti_edu_path = find_txttoqti_edu()
     
     if not txttoqti_edu_path:
         print("❌ Error: txttoqti-edu no encontrado")
-        print("   Instala txttoqti v0.3.0+: pip install git+https://github.com/julihocc/txttoqti.git@v0.3.0")
-        print("   O activa el entorno virtual: source .venv/bin/activate")
-        sys.exit(1)
+        print("   Instala txttoqti v0.3.0+: pip install txttoqti>=0.3.0")
+        return
     
-    # Pass all arguments to txttoqti-edu
-    cmd_args = [txttoqti_edu_path] + sys.argv[1:]
+    current_dir = Path(__file__).parent
     
     try:
-        result = subprocess.run(cmd_args)
-        sys.exit(result.returncode)
+        result = subprocess.run([
+            txttoqti_edu_path, 
+            "--status", 
+            "--path", str(current_dir)
+        ])
+        
+        if result.returncode != 0:
+            print(f"❌ Error mostrando estado")
+            
     except Exception as e:
         print(f"❌ Error ejecutando txttoqti-edu: {e}")
-        sys.exit(1)
+
+
+def convert_files(force=False):
+    """Convert files using txttoqti-edu."""
+    txttoqti_edu_path = find_txttoqti_edu()
+    
+    if not txttoqti_edu_path:
+        print("❌ Error: txttoqti-edu no encontrado")
+        print("   Instala txttoqti v0.3.0+: pip install txttoqti>=0.3.0")
+        return False
+    
+    current_dir = Path(__file__).parent
+    
+    # Construir argumentos
+    args = [txttoqti_edu_path, "--path", str(current_dir)]
+    if force:
+        args.append("--force")
+    
+    try:
+        result = subprocess.run(args)
+        
+        if result.returncode == 0:
+            print("✅ Conversión completada")
+            return True
+        else:
+            print(f"❌ Error en conversión (código {result.returncode})")
+            return False
+            
+    except Exception as e:
+        print(f"❌ Error ejecutando txttoqti-edu: {e}")
+        return False
+
+
+def main():
+    """Main function."""
+    parser = argparse.ArgumentParser(
+        description="Generador QTI para evaluaciones de fútbol",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Ejemplos:
+    python generar_qti.py              # Convertir archivos nuevos o modificados
+    python generar_qti.py --status     # Ver estado actual
+    python generar_qti.py --force      # Forzar regeneración de todos los archivos
+        """
+    )
+    
+    parser.add_argument("--status", action="store_true",
+                       help="Mostrar estado actual sin conversión")
+    parser.add_argument("--force", action="store_true",
+                       help="Forzar regeneración de todos los archivos")
+    
+    args = parser.parse_args()
+    
+    if args.status:
+        show_status()
+        return 0
+    
+    success = convert_files(force=args.force)
+    return 0 if success else 1
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
