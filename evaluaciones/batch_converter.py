@@ -5,15 +5,17 @@ Procesa todos los bloques o bloques específicos de manera eficiente
 """
 
 import argparse
-import subprocess
 import sys
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Tuple
 import concurrent.futures
 import time
 
+import subprocess
+
 def find_txttoqti_edu() -> Optional[str]:
     """Encuentra el comando txttoqti-edu."""
+    # Buscar en entorno virtual primero
     current_dir = Path.cwd()
     for _ in range(10):
         venv_bin = current_dir / ".venv" / "bin" / "txttoqti-edu"
@@ -23,6 +25,7 @@ def find_txttoqti_edu() -> Optional[str]:
         if current_dir == current_dir.parent:
             break
     
+    # Buscar en PATH del sistema
     try:
         result = subprocess.run(['which', 'txttoqti-edu'], 
                               capture_output=True, text=True)
@@ -33,8 +36,8 @@ def find_txttoqti_edu() -> Optional[str]:
     
     return None
 
-def convert_single_block(bloque: str, force: bool = False, verbose: bool = False) -> tuple[str, bool, str]:
-    """Convierte un bloque individual."""
+def convert_single_block(bloque: str, force: bool = False, verbose: bool = False) -> Tuple[str, bool, str]:
+    """Convierte un bloque individual usando txttoqti-edu CLI."""
     txttoqti_path = find_txttoqti_edu()
     
     if not txttoqti_path:
@@ -44,7 +47,7 @@ def convert_single_block(bloque: str, force: bool = False, verbose: bool = False
     if not canvas_dir.exists():
         return bloque, False, f"Directorio canvas no encontrado en {bloque}"
     
-    # Construir argumentos
+    # Construir argumentos para txttoqti-edu
     args = [txttoqti_path, "--path", str(canvas_dir)]
     if force:
         args.append("--force")
@@ -55,7 +58,7 @@ def convert_single_block(bloque: str, force: bool = False, verbose: bool = False
         start_time = time.time()
         result = subprocess.run(
             args,
-            cwd=canvas_dir,
+            cwd=Path.cwd(),  # Run from project root
             capture_output=True,
             text=True,
             timeout=300  # 5 minutos máximo por bloque
@@ -66,12 +69,12 @@ def convert_single_block(bloque: str, force: bool = False, verbose: bool = False
         if result.returncode == 0:
             message = f"Completado en {duration:.1f}s"
             if verbose and result.stdout:
-                message += f"\n{result.stdout}"
+                message += f"\n{result.stdout.strip()}"
             return bloque, True, message
         else:
             error_msg = f"Error (código {result.returncode})"
             if result.stderr:
-                error_msg += f": {result.stderr}"
+                error_msg += f": {result.stderr.strip()}"
             return bloque, False, error_msg
             
     except subprocess.TimeoutExpired:

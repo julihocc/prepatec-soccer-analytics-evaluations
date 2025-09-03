@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
 CLI principal para el sistema de evaluaciones
-Interfaz unificada que envuelve txttoqti-edu con funcionalidades específicas
+Interfaz unificada que usa txttoqti de PyPI con funcionalidades específicas
 """
 
 import argparse
-import subprocess
 import sys
 from pathlib import Path
+
+import subprocess
 from typing import Optional
 
 def find_txttoqti_edu() -> Optional[str]:
@@ -53,18 +54,20 @@ def show_global_status():
         print()
 
 def convert_all_blocks():
-    """Convierte todos los bloques disponibles."""
+    """Convierte todos los bloques disponibles usando txttoqti-edu CLI."""
     txttoqti_path = find_txttoqti_edu()
     
     if not txttoqti_path:
         print("❌ txttoqti-edu no encontrado")
-        print("   Instala: pip install git+https://github.com/julihocc/txttoqti.git@v0.3.0")
+        print("   Instala: pip install txttoqti>=0.3.0")
         return 1
     
     print("🚀 Conversión masiva de evaluaciones")
     print("=" * 40)
     
     bloques = ['bloque-1', 'bloque-2', 'bloque-3']
+    success_count = 0
+    
     for bloque in bloques:
         canvas_dir = Path(bloque) / "canvas"
         if canvas_dir.exists():
@@ -74,17 +77,21 @@ def convert_all_blocks():
                     txttoqti_path, 
                     "--path", str(canvas_dir),
                     "--verbose"
-                ], cwd=canvas_dir)
+                ], cwd=Path.cwd())
                 
                 if result.returncode == 0:
                     print(f"✅ {bloque.upper()} completado")
+                    success_count += 1
                 else:
                     print(f"❌ Error en {bloque.upper()}")
                     
             except Exception as e:
                 print(f"❌ Error procesando {bloque}: {e}")
+        else:
+            print(f"⚠️  {bloque.upper()}: Directorio canvas no encontrado")
     
-    return 0
+    print(f"\n📊 Resumen: {success_count}/{len(bloques)} bloques procesados exitosamente")
+    return 0 if success_count > 0 else 1
 
 def main():
     """Función principal del CLI."""
@@ -123,29 +130,50 @@ Ejemplos:
     if args.convert_all:
         return convert_all_blocks()
     
-    # Para otras opciones, delegar a txttoqti-edu
+    # Para conversión de bloque específico
+    if args.path:
+        return convert_specific_path(args.path, args.force, args.verbose)
+    
+    # Si no se especifica ninguna opción, mostrar ayuda
+    parser.print_help()
+    return 0
+
+def convert_specific_path(path: str, force: bool = False, verbose: bool = False):
+    """Convierte archivos en un directorio específico usando txttoqti-edu."""
     txttoqti_path = find_txttoqti_edu()
     
     if not txttoqti_path:
         print("❌ txttoqti-edu no encontrado")
-        print("   Instala: pip install git+https://github.com/julihocc/txttoqti.git@v0.3.0")
+        print("   Instala: pip install txttoqti>=0.3.0")
+        return 1
+    
+    path_obj = Path(path)
+    
+    if not path_obj.exists():
+        print(f"❌ El directorio {path} no existe")
+        return 1
+    
+    if not path_obj.is_dir():
+        print(f"❌ {path} no es un directorio válido")
         return 1
     
     # Construir argumentos para txttoqti-edu
-    txttoqti_args = [txttoqti_path]
-    
-    if args.path:
-        txttoqti_args.extend(["--path", args.path])
-    if args.verbose:
-        txttoqti_args.append("--verbose")
-    if args.force:
-        txttoqti_args.append("--force")
-    if args.interactive:
-        txttoqti_args.append("--interactive")
+    args = [txttoqti_path, "--path", str(path_obj)]
+    if force:
+        args.append("--force")
+    if verbose:
+        args.append("--verbose")
     
     try:
-        result = subprocess.run(txttoqti_args)
-        return result.returncode
+        result = subprocess.run(args, cwd=Path.cwd())
+        
+        if result.returncode == 0:
+            print(f"✅ Conversión completada para {path}")
+            return 0
+        else:
+            print(f"❌ Error en la conversión (código {result.returncode})")
+            return 1
+            
     except Exception as e:
         print(f"❌ Error ejecutando txttoqti-edu: {e}")
         return 1

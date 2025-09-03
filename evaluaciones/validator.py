@@ -1,17 +1,66 @@
 #!/usr/bin/env python3
 """
 Validador de evaluaciones
-Verifica formato y contenido de archivos de evaluación
+Verifica formato y contenido de archivos de evaluación usando txttoqti
 """
 
 import argparse
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 import re
 
+try:
+    from txttoqti import QuestionValidator, QuestionParser
+    from txttoqti.exceptions import TxtToQtiError, ValidationError, ParseError
+except ImportError as e:
+    print(f"❌ Error: txttoqti no está instalado: {e}")
+    print("   Instala con: pip install txttoqti>=0.1.2")
+    sys.exit(1)
+
 def validate_question_format(content: str, file_path: Path) -> List[str]:
-    """Valida el formato de preguntas en un archivo."""
+    """Valida el formato de preguntas usando txttoqti."""
+    errors = []
+    
+    try:
+        # Usar el parser de txttoqti para validar
+        parser = QuestionParser()
+        validator = QuestionValidator()
+        
+        # Intentar parsear las preguntas
+        questions = parser.parse(content)
+        
+        if not questions:
+            errors.append("No se encontraron preguntas válidas en el archivo")
+            return errors
+        
+        # Validar cada pregunta parseada
+        for i, question in enumerate(questions, 1):
+            try:
+                # El parser ya valida la estructura básica
+                # Usar el validador para verificaciones adicionales
+                is_valid = validator.validate(question)
+                if not is_valid:
+                    errors.append(f"Pregunta {i}: Formato inválido según validador txttoqti")
+            except ValidationError as e:
+                errors.append(f"Pregunta {i}: {str(e)}")
+            except Exception as e:
+                errors.append(f"Pregunta {i}: Error de validación: {str(e)}")
+        
+        # Información adicional si se parsearon preguntas correctamente
+        if not errors:
+            return []  # Todo válido
+            
+    except ParseError as e:
+        errors.append(f"Error de parseo: {str(e)}")
+    except Exception as e:
+        # Fallback a validación manual si txttoqti falla
+        return validate_question_format_manual(content, file_path)
+    
+    return errors
+
+def validate_question_format_manual(content: str, file_path: Path) -> List[str]:
+    """Validación manual como fallback."""
     errors = []
     lines = content.split('\n')
     
