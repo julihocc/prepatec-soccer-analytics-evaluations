@@ -6,7 +6,7 @@ Sistema evaluativo independiente con herramientas para:
 - Conversión automática de preguntas de texto a QTI Canvas
 - Validación de formatos y contenido
 - Procesamiento en lotes de múltiples bloques
-- Integración con txttoqti v0.3.0+
+- Integración con txttoqti v0.3.0+ desde PyPI
 
 Uso:
     eval-qti --status          # Ver estado global
