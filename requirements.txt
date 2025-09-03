@@ -1,0 +1,21 @@
+# Ciencia de Datos Aplicada al Fútbol - Evaluaciones
+# Dependencias mínimas para sistema evaluativo independiente
+
+# Core QTI conversion
+txttoqti>=0.3.0
+
+# Data analysis stack  
+pandas>=2.0.0
+numpy>=1.24.0
+matplotlib>=3.6.0
+seaborn>=0.12.0
+scikit-learn>=1.2.0
+
+# Jupyter environment
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
+# Development tools (optional)
+pytest>=7.0.0
+black>=22.0.0
+ruff>=0.1.0

@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ciencia-datos-futbol-evaluaciones"
+version = "1.0.0"
+description = "Sistema evaluativo para Ciencia de Datos Aplicada al Fútbol - Tecnológico de Monterrey"
+authors = [
+    {name = "Julio César Hernández Castillo", email = "julio.hernandez@tec.mx"}
+]
+license = {text = "Privado - Uso Académico Exclusivo"}
+readme = "README-PRIVADO.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Education",
+    "License :: Other/Proprietary License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Education",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "txttoqti>=0.3.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "matplotlib>=3.6.0", 
+    "seaborn>=0.12.0",
+    "scikit-learn>=1.2.0",
+    "jupyter>=1.0.0",
+    "ipykernel>=6.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+eval-qti = "evaluaciones.cli:main"
+eval-validate = "evaluaciones.validator:main"
+eval-batch = "evaluaciones.batch_converter:main"
+
+[project.urls]
+"Homepage" = "https://github.com/julihocc/ciencia-datos-futbol-evaluaciones"
+"Repository" = "https://github.com/julihocc/ciencia-datos-futbol-evaluaciones"
+"Issues" = "https://github.com/julihocc/ciencia-datos-futbol-evaluaciones/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["evaluaciones*"]
+
+[tool.setuptools.package-data]
+"evaluaciones" = ["**/*.txt", "**/*.py", "**/*.md", "**/*.csv"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+select = ["E", "F", "I", "N", "W"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers"
+testpaths = ["tests"]
+pythonpath = ["."]
