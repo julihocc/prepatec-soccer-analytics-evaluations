@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ciencia-datos-futbol-evaluaciones"
-version = "1.0.0"
+version = "1.1.0"
 description = "Sistema evaluativo para Ciencia de Datos Aplicada al Fútbol - Tecnológico de Monterrey"
 authors = [
     {name = "Julio César Hernández Castillo", email = "julio.hernandez@tec.mx"}

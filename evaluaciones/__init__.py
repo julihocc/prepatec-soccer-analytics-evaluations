@@ -14,7 +14,7 @@ Uso:
     eval-validate             # Validar formatos
 """
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __author__ = "Julio César Hernández Castillo"
 __email__ = "julio.hernandez@tec.mx"
 
