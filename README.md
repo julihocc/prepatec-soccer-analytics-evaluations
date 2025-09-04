@@ -120,10 +120,25 @@
 
 ### Configuración Técnica
 
-- **Canvas:** Bancos de preguntas configurables automáticamente
+- **QTI Generation:** txttoqti v0.4.0 para conversión automática a Canvas
+- **Conversión Simplificada:** `./convert-all.sh` o scripts individuales por bloque  
 - **Datasets:** Datos deportivos reales y sintéticos preparados
 - **Templates:** Estructuras base para proyectos
 - **Herramientas:** Python, Jupyter, pandas, scikit-learn, seaborn
+
+#### Quick Start - Generación QTI
+```bash
+# Instalar dependencia
+pip install txttoqti>=0.4.0
+
+# Convertir todos los bloques
+./convert-all.sh
+
+# O convertir individualmente
+cd bloque-1/canvas && python3 generar_qti.py
+cd bloque-2/canvas && python3 generar_qti.py
+cd bloque-3/canvas && python3 generar_qti.py
+```
 
 ### Soporte Pedagógico
 
@@ -167,7 +182,8 @@
 
 ### Implementación
 
-- **Configuración Canvas:** Guías paso a paso disponibles
+- **Configuración Canvas:** Import directo de archivos QTI generados
+- **Generación QTI:** Automatizada con txttoqti v0.4.0
 - **Capacitación:** Sesiones para profesores
 - **Soporte técnico:** Durante todo el semestre
 

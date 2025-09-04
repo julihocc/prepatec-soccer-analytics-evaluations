@@ -22,8 +22,8 @@ Separar el contenido evaluativo sensible del repositorio principal del curso par
 ### 📊 Estadísticas de Migración
 
 - **Commits preservados**: 508 commits completos del directorio evaluaciones
-- **Reducción de código**: 96.7% gracias a txttoqti v0.3.0
-- **Herramientas nuevas**: 3 CLIs especializados (`eval-qti`, `eval-validate`, `eval-batch`)
+- **Reducción de código**: 99.1% gracias a txttoqti v0.4.0 (eliminados wrappers complejos)
+- **Herramientas simplificadas**: Uso directo de txttoqti + scripts individuales simples
 - **Archivos migrados**: 596KB de contenido evaluativo
 
 ## 🏗️ Configuración Post-Migración
@@ -49,13 +49,14 @@ git commit -m "migrate: evaluaciones to private submodule repository"
 
 ```markdown
 # Evaluaciones (Repositorio Privado)
-git submodule update --remote evaluaciones  # Actualizar evaluaciones  
-cd evaluaciones && pip install -e .          # Instalar dependencias
+git submodule update --remote evaluaciones     # Actualizar evaluaciones  
+cd evaluaciones && pip install txttoqti>=0.4.0  # Instalar dependencias
+./convert-all.sh                              # Generar archivos QTI
 
-# Comandos evaluaciones
-eval-qti --status          # Estado global
-eval-qti --convert-all     # Conversión masiva  
-eval-validate             # Validación completa
+# Comandos simplificados
+./convert-all.sh                    # Conversión de todos los bloques
+python3 bloque-X/canvas/generar_qti.py  # Conversión individual
+txttoqti -i input.txt -o output.zip     # Uso directo
 ```
 
 ## 🔄 Workflow Actualizado
@@ -70,10 +71,10 @@ git clone --recurse-submodules <url-repo-principal>
 
 # 2. Configurar evaluaciones
 cd evaluaciones
-pip install -e .
+pip install txttoqti>=0.4.0
 
-# 3. Verificar acceso
-eval-qti --status
+# 3. Generar archivos QTI
+./convert-all.sh
 ```
 
 #### Trabajo Diario

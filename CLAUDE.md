@@ -21,19 +21,22 @@ source .venv/bin/activate  # Linux/Mac
 pip install -e .[dev]
 ```
 
-### Core CLI Tools
+### Core Conversion Tools
 ```bash
-# Check global status of all evaluation blocks
-eval-qti --status
+# Convert all blocks to QTI packages (simple script)
+./convert-all.sh
 
-# Convert all blocks to QTI packages
-eval-qti --convert-all
+# Convert individual blocks - three options:
+# Option 1: Direct txttoqti
+txttoqti -i bloque-1/canvas/banco-preguntas-bloque1.txt -o bloque-1.zip
 
-# Validate question formats across all blocks
-eval-validate --verbose
+# Option 2: Per-block Python scripts (simplified)
+cd bloque-1/canvas && python3 generar_qti.py
+cd bloque-2/canvas && python3 generar_qti.py  
+cd bloque-3/canvas && python3 generar_qti.py
 
-# Batch processing with parallel execution
-eval-batch --force --verbose
+# Option 3: From any directory
+python3 bloque-1/canvas/generar_qti.py
 ```
 
 ### Testing and Quality Assurance
@@ -50,21 +53,21 @@ pytest
 
 ## Architecture Overview
 
-### Core Module Structure
-- **`evaluaciones/`**: Main Python package containing the evaluation system
-  - **`cli.py`**: Unified command-line interface (`eval-qti` command)
-  - **`batch_converter.py`**: Parallel/sequential batch processing (`eval-batch` command)
-  - **`validator.py`**: Question format validation (`eval-validate` command)
-  - **`format_converter.py`**: Utility for format conversion between question formats
+### Core Structure
+- **`convert-all.sh`**: Simple shell script to convert all question banks
+- **`bloque-X/canvas/generar_qti.py`**: Simplified per-block conversion scripts (44 lines each)
+- **`txttoqti`**: Direct use of txttoqti v0.4.0 for QTI conversion
+- **Question banks**: Use `ANSWER:` format for txttoqti compatibility
 
 ### Block Structure Pattern
 Each evaluation block (`bloque-1/`, `bloque-2/`, `bloque-3/`) follows this structure:
 ```
 bloque-X/
 ├── canvas/
-│   ├── banco-preguntas-bloqueX.txt    # Main question bank
+│   ├── banco-preguntas-bloqueX.txt    # Main question bank (ANSWER: format)
 │   ├── preguntas-bloque-X.txt         # Symlink to main file
-│   └── generar_qti.py                 # Per-block conversion script
+│   ├── generar_qti.py                 # Simple conversion script (44 lines)
+│   └── bloque-X-qti.zip               # Generated QTI package
 ├── caso-practico/                     # Practical case studies
 ├── datasets/                          # Data files for evaluations
 └── rubricas/                          # Evaluation rubrics
@@ -72,9 +75,9 @@ bloque-X/
 
 ### Integration with txttoqti
 
-The system integrates with **txttoqti v0.4.0** which provides:
-- `txttoqti-edu`: Educational CLI tool that auto-detects question formats
-- Native support for the question format used: `Q1:` → `A) B) C) D)` → `RESPUESTA:`
+The system uses **txttoqti v0.4.0** directly:
+- Direct CLI usage: `txttoqti -i input.txt -o output.zip`
+- Native support for the question format: `Q1:` → `A) B) C) D)` → `ANSWER:`
 - Automatic Canvas QTI package generation
 
 ### Question Format
@@ -85,26 +88,20 @@ A) <class 'float'>
 B) <class 'int'>
 C) <class 'str'>
 D) <class 'number'>
-RESPUESTA: B
+ANSWER: B
 ```
 
-### CLI Commands Flow
-1. **`eval-qti --status`**: Scans all blocks and reports conversion status
-2. **`eval-qti --convert-all`**: Calls `txttoqti-edu` on each block's canvas directory
-3. **`eval-batch`**: Parallel execution of conversions with progress tracking
-4. **`eval-validate`**: Uses txttoqti's validation capabilities + custom validation
+### Conversion Workflow
+1. **`./convert-all.sh`**: Convert all question banks to QTI format
+2. **`txttoqti -i input.txt -o output.zip`**: Direct conversion of individual files
+3. **Built-in validation**: txttoqti v0.4.0 validates format automatically
 
 ## Key Implementation Details
 
-### txttoqti Integration
-- All conversion operations delegate to `txttoqti-edu` CLI rather than Python API
-- The system finds the `txttoqti-edu` command in `.venv/bin/` or system PATH
-- Each block's `generar_qti.py` is a lightweight wrapper around `txttoqti-edu --path`
-
-### Parallel Processing
-- `batch_converter.py` uses `concurrent.futures.ThreadPoolExecutor` for parallel conversions
-- Default: 3 workers maximum to avoid overwhelming the system
-- Falls back to sequential processing for single blocks or when requested
+### Simplified Integration
+- Direct use of `txttoqti` CLI for all conversions
+- Simple shell script (`convert-all.sh`) handles batch processing
+- No complex wrappers or custom Python modules needed
 
 ### File Discovery Pattern
 - Question files are discovered via glob patterns: `*.txt` in canvas directories
@@ -122,19 +119,18 @@ RESPUESTA: B
 
 ### When Modifying Question Banks
 1. Edit the `.txt` files in `bloque-X/canvas/` directories
-2. Run `eval-validate` to check format compliance
-3. Use `eval-qti --path bloque-X` to test conversion
+2. Ensure questions use `ANSWER:` format (not `RESPUESTA:`)
+3. Test conversion: `txttoqti -i bloque-X/canvas/banco-preguntas-bloqueX.txt -o test.zip`
 4. Verify QTI output before committing
 
 ### When Extending Functionality
-- Follow the existing CLI pattern: delegate to `txttoqti-edu` rather than reimplementing
-- Maintain compatibility with the educational question format
-- Use the existing validation and error handling patterns
-- Update the corresponding CLI help text and documentation
+- Use txttoqti directly rather than creating wrappers
+- Maintain compatibility with the `ANSWER:` format
+- Use txttoqti's built-in validation
+- Update the conversion script if needed
 
 ### Troubleshooting Common Issues
-- "txttoqti-edu not found": Ensure txttoqti>=0.4.0 is installed
-- "Input file not found": Check that question files follow naming convention
-- Format errors: Use `eval-validate --verbose` to identify specific issues
-- "Multiple choice question has no correct answer": v0.4.0 has stricter validation - ensure RESPUESTA field exactly matches one of the answer options
-- Conversion failures: Check that working directory is project root when running batch operations
+- "txttoqti not found": Ensure txttoqti>=0.4.0 is installed (`pip install txttoqti>=0.4.0`)
+- "Input file not found": Check file paths in conversion commands
+- "Multiple choice question has no correct answer": Ensure `ANSWER:` field exactly matches one of the answer options (A, B, C, D)
+- Conversion failures: Use `./convert-all.sh` from project root, or check individual file paths

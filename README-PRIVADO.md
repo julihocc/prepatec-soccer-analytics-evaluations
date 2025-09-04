@@ -26,11 +26,11 @@ Este repositorio contiene material evaluativo sensible:
 git clone <url-privado> ciencia-datos-futbol-evaluaciones
 cd ciencia-datos-futbol-evaluaciones
 
-# 2. Instalar dependencias
-pip install -e .
+# 2. Instalar txttoqti
+pip install txttoqti>=0.4.0
 
-# 3. Verificar instalación
-eval-qti --status
+# 3. Convertir bancos de preguntas
+./convert-all.sh
 ```
 
 ### Instalación con Entorno Virtual (Recomendado)
@@ -41,62 +41,39 @@ python -m venv .venv
 source .venv/bin/activate  # Linux/Mac
 # .venv\Scripts\activate   # Windows
 
-# 2. Instalar en modo desarrollo
-pip install -e .[dev]
+# 2. Instalar dependencia principal
+pip install txttoqti>=0.4.0
 
-# 3. Verificar herramientas disponibles
-eval-qti --help
-eval-validate --help  
-eval-batch --help
-```
+# 3. Verificar instalación
+txttoqti --help
 
+# 4. Convertir todos los bancos de preguntas
+./convert-all.sh
 ---
 
 ## 🎯 Herramientas Disponibles
 
-### 1. CLI Principal (`eval-qti`)
+### 1. Conversión Automática de QTI
 
 ```bash
-# Estado global de todos los bloques
-eval-qti --status
+# Convertir todos los bloques (opción recomendada)
+./convert-all.sh
 
-# Conversión masiva de todos los bloques
-eval-qti --convert-all
+# Convertir bloques individuales
+cd bloque-1/canvas && python3 generar_qti.py
+cd bloque-2/canvas && python3 generar_qti.py  
+cd bloque-3/canvas && python3 generar_qti.py
 
-# Convertir bloque específico
-eval-qti --path bloque-1
-
-# Forzar regeneración con salida detallada
-eval-qti --force --verbose
+# Uso directo de txttoqti
+txttoqti -i bloque-1/canvas/banco-preguntas-bloque1.txt -o bloque-1.zip
 ```
 
-### 2. Validador (`eval-validate`)
+### 2. Validación Automática
 
 ```bash
-# Validar todas las evaluaciones
-eval-validate
+# txttoqti v0.4.0 incluye validación integrada
+# Se ejecuta automáticamente en cada conversión
 
-# Validar bloque específico
-eval-validate --bloque bloque-2
-
-# Validación detallada
-eval-validate --verbose
-```
-
-### 3. Conversor en Lotes (`eval-batch`)
-
-```bash
-# Conversión paralela de todos los bloques (defecto)
-eval-batch
-
-# Conversión secuencial
-eval-batch --sequential
-
-# Bloques específicos con fuerza
-eval-batch --bloques bloque-1 bloque-3 --force
-
-# Control de paralelismo
-eval-batch --max-workers 2 --verbose
 ```
 
 ---
