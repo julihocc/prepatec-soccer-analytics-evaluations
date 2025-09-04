@@ -206,9 +206,9 @@ print(f"Cantidad de delanteros en el equipo: {delanteros}")
 # %% [markdown]
 # ---
 # 
-# # PARTE 2: Análisis y Métricas Básicas (30 puntos)
+# # PARTE 2: Análisis y Métricas Básicas (40 puntos)
 # 
-# ## 2.1 Estadísticas Básicas del Equipo (10 puntos)
+# ## 2.1 Estadísticas Básicas del Equipo (20 puntos)
 # 
 # Utilizamos nuestras funciones para calcular estadísticas del equipo:
 
@@ -255,7 +255,7 @@ else:
 # se marcaron los goles, contra qué tipo de rivales, o si los goles vinieron de jugadas elaboradas o de errores del rival.
 
 # %% [markdown]
-# ## 2.2 Análisis de Jugadores (10 puntos)
+# ## 2.2 Análisis de Jugadores (20 puntos)
 # 
 # Analizamos el rendimiento individual de los jugadores:
 
@@ -315,235 +315,71 @@ for nombre, datos in jugadores.items():
 # valioso que un delantero que solo marca en partidos ya ganados.
 
 # %% [markdown]
-# ## 2.3 Introducción a pandas (10 puntos)
-# 
-# Construimos un DataFrame simple para unificar los datos y comparar ventajas respecto a listas:
-
-# %%
-import pandas as pd
-
-# Crear DataFrame unificando todos los datos de partidos
-# Esto demuestra la transición de estructuras básicas de Python a pandas
-datos_partidos = pd.DataFrame({
-    'partido': range(1, len(goles_favor)+1),
-    'resultado': resultados_partidos,
-    'goles_favor': goles_favor,
-    'goles_contra': goles_contra
-})
-
-print("=== DATOS UNIFICADOS EN DATAFRAME ===")
-print(datos_partidos)
-
-# Calcular estadísticas usando pandas - mucho más simple que con bucles
-promedio_goles_df = datos_partidos['goles_favor'].mean()
-print(f"\nPromedio goles a favor (DataFrame): {promedio_goles_df:.2f}")
-
-# Estadísticas adicionales que son fáciles con pandas
-print(f"\n=== ESTADÍSTICAS ADICIONALES CON PANDAS ===")
-print(f"Máximo de goles en un partido: {datos_partidos['goles_favor'].max()}")
-print(f"Mínimo de goles en un partido: {datos_partidos['goles_favor'].min()}")
-print(f"Mediana de goles: {datos_partidos['goles_favor'].median()}")
-
-# Agregar columna calculada para diferencia de goles por partido
-# Esto demuestra la facilidad de pandas para crear nuevas columnas
-datos_partidos['diferencia_goles'] = datos_partidos['goles_favor'] - datos_partidos['goles_contra']
-
-print(f"\n=== DATAFRAME CON DIFERENCIA DE GOLES ===")
-print(datos_partidos)
-
-# Filtrar partidos ganados fácilmente usando pandas
-# Esto demuestra el poder de filtrado de pandas vs bucles manuales
-partidos_ganados_por_diferencia = datos_partidos[datos_partidos['diferencia_goles'] >= 2]
-print(f"\n=== PARTIDOS GANADOS POR 2+ GOLES DE DIFERENCIA ===")
-print(partidos_ganados_por_diferencia)
-
-# %% [markdown]
-# **Pregunta de reflexión:** ¿Qué ventaja concreta te da el DataFrame frente a manejar tres listas independientes? ¿En qué situaciones crees que esta diferencia sería aún más importante?
-# 
-# **Respuesta:** El DataFrame nos permite ver toda la información relacionada junta en una tabla ordenada, 
-# calcular estadísticas complejas con una línea de código (.mean(), .max()), y filtrar datos fácilmente 
-# (partidos con diferencia >= 2). La diferencia sería aún más importante cuando tenemos muchas más columnas 
-# (fecha, rival, temperatura, jugadores lesionados, etc.) o cuando queremos hacer análisis complejos como 
-# "promedio de goles en partidos de local vs visitante" - con listas sería muy complicado, con DataFrame es simple.
-
-# %% [markdown]
 # ---
+
 # 
-# # PARTE 3: Visualización e Interpretación (30 puntos)
+# # PARTE 3: Visualización e Interpretación (20 puntos)
 # 
 # ## 3.1 Visualización Básica (15 puntos)
 # 
-# Creamos visualizaciones profesionales para comunicar los hallazgos:
+# Crear una visualización simple para comunicar los hallazgos:
 
 # %% [markdown]
-# ### a) Gráfico de barras - Rendimiento por partido
+# ### Gráfico de barras - Distribución de resultados
 
 # %%
 import matplotlib.pyplot as plt
 
-# Configurar el gráfico con tamaño apropiado
-partidos = range(1, len(goles_favor)+1)
-plt.figure(figsize=(12, 6))  # Hacer el gráfico más ancho para mejor visualización
+# Crear gráfico de barras que muestre la cantidad de victorias, empates y derrotas
+# Según las nuevas especificaciones del caso práctico
+plt.figure(figsize=(10, 6))
 
-# Crear barras para goles a favor y en contra con colores apropiados
-plt.bar(partidos, goles_favor, label='Goles a favor', color='green', alpha=0.8)
-plt.bar(partidos, goles_contra, label='Goles en contra', color='red', alpha=0.7)
-
-# Personalizar el gráfico para hacerlo más profesional
-plt.xlabel('Número de Partido')
-plt.ylabel('Cantidad de Goles')
-plt.title('Rendimiento Ofensivo y Defensivo por Partido')
-plt.legend()
-plt.grid(True, alpha=0.3)  # Agregar cuadrícula sutil
-plt.xticks(partidos)  # Mostrar todos los números de partido
-
-# Agregar valores encima de las barras para mejor lectura
-for i, (favor, contra) in enumerate(zip(goles_favor, goles_contra)):
-    plt.text(i+1, favor + 0.1, str(favor), ha='center', va='bottom', fontweight='bold')
-    if contra > 0:  # Solo mostrar número si hay goles en contra
-        plt.text(i+1, contra + 0.1, str(contra), ha='center', va='bottom', fontweight='bold')
-
-plt.tight_layout()  # Ajustar automáticamente el espaciado
-plt.show()
-
-# %% [markdown]
-# ### b) Comparación de resultados
-
-# %%
-# Crear gráfico que muestre la distribución de victorias, empates y derrotas
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
-
-# Gráfico de barras con la distribución de resultados
 resultados_count = [victorias, empates, derrotas]
 resultados_labels = ['Victorias', 'Empates', 'Derrotas']
 colores = ['green', 'orange', 'red']
 
-bars = ax1.bar(resultados_labels, resultados_count, color=colores, alpha=0.8)
-ax1.set_title('Distribución de Resultados')
-ax1.set_ylabel('Cantidad de Partidos')
+# Crear barras con colores apropiados y etiquetas claras
+bars = plt.bar(resultados_labels, resultados_count, color=colores, alpha=0.8)
 
-# Agregar valores encima de las barras
+# Incluir título descriptivo y números en las barras
+plt.title('Distribución de Resultados del Equipo')
+plt.ylabel('Cantidad de Partidos')
+plt.xlabel('Tipo de Resultado')
+
+# Agregar números en las barras para mejor visualización
 for bar, valor in zip(bars, resultados_count):
-    ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.1, 
-             str(valor), ha='center', va='bottom', fontweight='bold')
-
-# Gráfico de pie chart para mostrar proporciones
-porcentajes = [v/len(resultados_partidos)*100 for v in resultados_count]
-ax2.pie(resultados_count, labels=resultados_labels, colors=colores, autopct='%1.1f%%', 
-        startangle=90)
-ax2.set_title('Proporciones de Resultados')
-
-plt.tight_layout()
-plt.show()
-
-print("=== ANÁLISIS DE RESULTADOS ===")
-for label, count, porcentaje in zip(resultados_labels, resultados_count, porcentajes):
-    print(f"{label}: {count} partidos ({porcentaje:.1f}%)")
-
-# Análisis adicional del gráfico
-print(f"\n=== ANÁLISIS DEL GRÁFICO DE PARTIDOS ===")
-partidos_sin_goles = sum(1 for goles in goles_favor if goles == 0)
-partidos_porteria_cero = sum(1 for goles in goles_contra if goles == 0)
-
-print(f"Partidos sin marcar goles: {partidos_sin_goles}")
-print(f"Partidos sin recibir goles (portería en cero): {partidos_porteria_cero}")
-
-# Identificar el mejor y peor partido ofensivamente
-mejor_partido_ofensivo = goles_favor.index(max(goles_favor)) + 1
-peor_partido_ofensivo = goles_favor.index(min(goles_favor)) + 1
-
-print(f"Mejor partido ofensivo: Partido {mejor_partido_ofensivo} ({max(goles_favor)} goles)")
-print(f"Peor partido ofensivo: Partido {peor_partido_ofensivo} ({min(goles_favor)} goles)")
-
-# %% [markdown]
-# **Pregunta de reflexión:** ¿En qué partidos la diferencia de goles fue mayor? ¿Qué hipótesis podrías proponer sobre el rendimiento del equipo en esos momentos específicos?
-# 
-# **Respuesta:** Observando el gráfico, las mayores diferencias positivas fueron en los partidos 3, 5 y 9 
-# (donde marcamos 3, 2 y 3 goles respectivamente sin recibir muchos). La mayor diferencia negativa fue en el 
-# partido 2 (0 goles a favor, 3 en contra). Hipótesis: En los partidos con gran diferencia positiva, el equipo 
-# posiblemente enfrentó rivales más débiles o tuvo días de gran inspiración ofensiva. En el partido 2, quizás 
-# enfrentó un rival muy superior o tuvo un día muy malo donde no pudo crear oportunidades de gol.
-
-# %% [markdown]
-# ## 3.2 Análisis por Posición (10 puntos)
-# 
-# Analizamos el rendimiento de jugadores por posición:
-
-# %%
-# Agrupar jugadores por posición y calcular estadísticas básicas
-# Creamos un diccionario para organizar por posición
-jugadores_por_posicion = {}
-for nombre, datos in jugadores.items():
-    posicion = datos['posicion']
-    if posicion not in jugadores_por_posicion:
-        jugadores_por_posicion[posicion] = []
-    jugadores_por_posicion[posicion].append({
-        'nombre': nombre,
-        'goles': datos['goles']
-    })
-
-print("=== ANÁLISIS DETALLADO POR POSICIÓN ===")
-posiciones_goles = {}
-posiciones_promedio = {}
-
-for posicion, lista_jugadores in jugadores_por_posicion.items():
-    total_goles_posicion = sum(j['goles'] for j in lista_jugadores)
-    cantidad_jugadores = len(lista_jugadores)
-    promedio_goles = total_goles_posicion / cantidad_jugadores
-    
-    posiciones_goles[posicion] = total_goles_posicion
-    posiciones_promedio[posicion] = promedio_goles
-    
-    print(f"\n{posicion}:")
-    print(f"  Cantidad de jugadores: {cantidad_jugadores}")
-    print(f"  Total de goles: {total_goles_posicion}")
-    print(f"  Promedio por jugador: {promedio_goles:.1f}")
-    print(f"  Jugadores: {', '.join([j['nombre'] for j in lista_jugadores])}")
-
-# Crear visualización mostrando goles promedio por posición
-plt.figure(figsize=(10, 6))
-posiciones = list(posiciones_promedio.keys())
-promedios = list(posiciones_promedio.values())
-
-bars = plt.bar(posiciones, promedios, color=['lightblue', 'lightgreen', 'lightsalmon'], alpha=0.8)
-plt.title('Promedio de Goles por Posición')
-plt.xlabel('Posición')
-plt.ylabel('Promedio de Goles por Jugador')
-plt.grid(True, alpha=0.3)
-
-# Agregar valores encima de las barras
-for bar, promedio in zip(bars, promedios):
     plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.1, 
-             f'{promedio:.1f}', ha='center', va='bottom', fontweight='bold')
+             str(valor), ha='center', va='bottom', fontweight='bold', fontsize=12)
 
+# Agregar cuadrícula para mejor legibilidad
+plt.grid(True, alpha=0.3, axis='y')
 plt.tight_layout()
 plt.show()
 
-# Identificar qué posiciones contribuyen más al ataque
-print(f"\n=== CONTRIBUCIÓN AL ATAQUE POR POSICIÓN ===")
-total_goles_todas_posiciones = sum(posiciones_goles.values())
-for posicion, goles in sorted(posiciones_goles.items(), key=lambda x: x[1], reverse=True):
-    porcentaje = (goles / total_goles_todas_posiciones) * 100
-    print(f"{posicion}: {goles} goles ({porcentaje:.1f}% del total)")
+# Agregar interpretación básica de lo que muestra el gráfico
+print("=== INTERPRETACIÓN DEL GRÁFICO ===")
+porcentajes = [v/len(resultados_partidos)*100 for v in resultados_count]
+for label, count, porcentaje in zip(resultados_labels, resultados_count, porcentajes):
+    print(f"{label}: {count} partidos ({porcentaje:.1f}% del total)")
 
-# Comparar rendimiento individual vs grupal
-mejor_individual = max(jugadores.items(), key=lambda x: x[1]['goles'])
-print(f"\nMejor rendimiento individual: {mejor_individual[0]} ({mejor_individual[1]['goles']} goles)")
-print(f"Mejor posición grupal: {max(posiciones_goles.items(), key=lambda x: x[1])}")
-
-# %% [markdown]
-# **Pregunta de reflexión:** ¿Los delanteros son los únicos responsables de los goles? ¿Qué te dice la distribución de goles por posición sobre el estilo de juego del equipo?
-# 
-# **Respuesta:** No, los delanteros no son los únicos responsables. Aunque los delanteros (Carlos y Ana) aportan 
-# 14 de 18 goles (77.8%), María desde mediocampo contribuye con 3 goles (16.7%) y hasta Luis desde defensa tiene 
-# 1 gol. Esto indica un estilo de juego participativo donde diferentes posiciones pueden llegar al gol. El promedio 
-# de 7 goles por delantero vs 3 por mediocampista vs 1 por defensor muestra un equipo balanceado que no depende 
-# exclusivamente de una sola línea para marcar.
+print(f"\nEl gráfico muestra que el equipo tiene un rendimiento positivo:")
+print(f"- {victorias} victorias ({porcentajes[0]:.0f}%) indican buena efectividad")
+print(f"- Solo {derrotas} derrotas ({porcentajes[2]:.0f}%) muestran resistencia")
+print(f"- {empates} empates ({porcentajes[1]:.0f}%) sugieren pocos partidos parejos")
 
 # %% [markdown]
-# ## 3.3 Interpretación y Comunicación (5 puntos)
+# **Pregunta de reflexión:** ¿Qué patrón observas en los resultados del equipo? ¿Considera que el equipo tuvo una temporada exitosa según estos datos?
 # 
-# Preparamos una síntesis clara de los hallazgos:
+# **Respuesta:** El patrón muestra un claro dominio del equipo con 60% de victorias y solo 20% de derrotas. 
+# La baja cantidad de empates (20%) indica que el equipo tiende a definir los partidos claramente, ya sea 
+# ganando o perdiendo. Considero que fue una temporada exitosa porque: (1) más del doble de victorias que 
+# derrotas, (2) balance positivo de goles (+4), y (3) 20 puntos en 10 partidos es un promedio de 2 puntos 
+# por partido, lo que en una liga completa los ubicaría en posiciones altas de la tabla.
+
+# %% [markdown]
+# ## 3.2 Interpretación y Comunicación (5 puntos)
+# 
+# Preparar una síntesis clara de los hallazgos:
 
 # %%
 print("="*80)
@@ -615,10 +451,10 @@ if partidos_cero_goles >= 2:
     print("   • Trabajar definición en entrenamientos")
     print("   • Analizar por qué en algunos partidos no se marca")
 
-dependencia_goleador = (jugadores[mejor_individual[0]]['goles'] / total_goles_jugadores) * 100
+dependencia_goleador = (jugadores[nombre_mejor_goleador]['goles'] / total_goles_jugadores) * 100
 if dependencia_goleador > 40:
     print("2. REDUCIR DEPENDENCIA DEL GOLEADOR PRINCIPAL:")
-    print(f"   • {mejor_individual[0]} aporta {dependencia_goleador:.1f}% de los goles")
+    print(f"   • {nombre_mejor_goleador} aporta {dependencia_goleador:.1f}% de los goles")
     print("   • Desarrollar alternativas ofensivas")
 
 if total_goles_contra >= total_goles_favor * 0.8:
@@ -688,13 +524,13 @@ print("   • Seguir fomentando que diferentes posiciones marquen goles")
 # al rival sin anotar durante todo un partido. Un equipo puede recibir pocos goles en promedio pero nunca 
 # tener portería en cero, lo que indicaría que siempre permite al menos una oportunidad clara al rival.
 # 
-# ## 2. ¿Qué beneficio te dio el DataFrame frente a listas separadas?
+# ## 2. ¿Qué limitación notas al usar listas separadas para análisis complejos?
 # 
-# El DataFrame me permitió tener todos los datos relacionados en una estructura organizada, calcular 
-# estadísticas complejas con funciones simples (.mean(), .max()), y realizar operaciones como filtros y 
-# columnas calculadas de forma muy intuitiva. Con listas separadas tenía que usar índices manualmente y era 
-# fácil cometer errores; con DataFrame puedo referirme a los datos por nombre de columna, lo que hace el 
-# código más legible y menos propenso a errores.
+# La principal limitación es que tengo que sincronizar manualmente múltiples listas usando índices, lo cual 
+# es propenso a errores. Si se desincroniza una lista (por ejemplo, al agregar un dato solo a goles_favor 
+# pero no a goles_contra), todo el análisis se rompe. Además, para hacer cálculos que involucren múltiples 
+# variables necesito bucles complejos con índices, mientras que una estructura unificada permitiría 
+# operaciones más intuitivas y menos propensas a errores de programación.
 # 
 # ## 3. ¿Cuál sería tu siguiente paso de análisis en el Período 2?
 # 
@@ -734,7 +570,7 @@ print("   • Seguir fomentando que diferentes posiciones marquen goles")
 # - ✅ Implementé y probé `calcular_puntos` con assert
 # - ✅ Implementé y probé `mejor_goleador` con assert
 # - ✅ Calculé promedios y diferencia de goles
-# - ✅ Creé DataFrame y expliqué ventaja sobre listas
+# - ✅ Realicé análisis completo con listas y diccionarios
 # - ✅ Generé gráfico barras goles a favor vs contra con etiquetas
 # - ✅ Respondí 3 preguntas de reflexión final con análisis detallado
 # - ✅ Comentarios claros explicando el "por qué" de cada paso
@@ -753,7 +589,7 @@ print("   • Seguir fomentando que diferentes posiciones marquen goles")
 # ---
 # 
 # *Este caso práctico integra todos los fundamentos del Período 1: variables, funciones, estructuras de 
-# control, listas, diccionarios, pandas básico y visualización, junto con razonamiento reflexivo sobre 
+# control, listas, diccionarios y visualización básica, junto con razonamiento reflexivo sobre 
 # análisis de datos deportivos.*
 
 # %% [markdown]
@@ -769,7 +605,7 @@ print("   • Seguir fomentando que diferentes posiciones marquen goles")
 # - ✅ Comentarios explican el "por qué", no solo el "qué"
 # 
 # ### Análisis con Datos (25/25 puntos):
-# - ✅ DataFrame creado correctamente con todos los datos
+# - ✅ Análisis completo realizado con estructuras de datos básicas
 # - ✅ Explica ventajas vs listas separadas
 # - ✅ Gráfico de barras legible con etiquetas y colores apropiados
 # - ✅ Interpreta resultados correctamente con análisis detallado
@@ -786,6 +622,6 @@ print("   • Seguir fomentando que diferentes posiciones marquen goles")
 # - ✅ Comentarios explican el "por qué" y conectan conceptos
 # - ✅ Conexiones claras entre conceptos técnicos y aplicaciones reales
 # 
-# **TOTAL: 100/100 puntos** - Cumplimiento completo con nueva estructura
+# **TOTAL: 100/100 puntos** - Cumplimiento completo con estructura sin pandas
 
 # %%
