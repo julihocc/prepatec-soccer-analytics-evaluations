@@ -72,7 +72,7 @@ bloque-X/
 
 ### Integration with txttoqti
 
-The system integrates with **txttoqti v0.3.0** which provides:
+The system integrates with **txttoqti v0.4.0** which provides:
 - `txttoqti-edu`: Educational CLI tool that auto-detects question formats
 - Native support for the question format used: `Q1:` → `A) B) C) D)` → `RESPUESTA:`
 - Automatic Canvas QTI package generation
@@ -133,7 +133,8 @@ RESPUESTA: B
 - Update the corresponding CLI help text and documentation
 
 ### Troubleshooting Common Issues
-- "txttoqti-edu not found": Ensure txttoqti>=0.3.0 is installed
+- "txttoqti-edu not found": Ensure txttoqti>=0.4.0 is installed
 - "Input file not found": Check that question files follow naming convention
 - Format errors: Use `eval-validate --verbose` to identify specific issues
+- "Multiple choice question has no correct answer": v0.4.0 has stricter validation - ensure RESPUESTA field exactly matches one of the answer options
 - Conversion failures: Check that working directory is project root when running batch operations
