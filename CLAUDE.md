@@ -23,26 +23,26 @@ pip install -e .[dev]
 
 ### Core Conversion Tools
 ```bash
-# Convert all blocks to QTI packages (simple script)
+# Convert all periods to QTI packages (simple script)
 ./convert-all.sh
 
-# Convert individual blocks - three options:
+# Convert individual periods - three options:
 # Option 1: Direct txttoqti
-txttoqti -i bloque-1/canvas/banco-preguntas-bloque1.txt -o bloque-1.zip
+txttoqti -i periodo-1/canvas/banco-preguntas-periodo1.txt -o periodo-1.zip
 
-# Option 2: Per-block Python scripts (simplified)
-cd bloque-1/canvas && python3 generar_qti.py
-cd bloque-2/canvas && python3 generar_qti.py  
-cd bloque-3/canvas && python3 generar_qti.py
+# Option 2: Per-period Python scripts (simplified)
+cd periodo-1/canvas && python3 generar_qti.py
+cd periodo-2/canvas && python3 generar_qti.py  
+cd periodo-3/canvas && python3 generar_qti.py
 
 # Option 3: From any directory
-python3 bloque-1/canvas/generar_qti.py
+python3 periodo-1/canvas/generar_qti.py
 ```
 
 ### Testing and Quality Assurance
 ```bash
 # Code formatting
-black evaluaciones/ bloque-*/canvas/generar_qti.py
+black evaluaciones/ periodo-*/canvas/generar_qti.py
 
 # Linting
 ruff check evaluaciones/
@@ -55,19 +55,19 @@ pytest
 
 ### Core Structure
 - **`convert-all.sh`**: Simple shell script to convert all question banks
-- **`bloque-X/canvas/generar_qti.py`**: Simplified per-block conversion scripts (44 lines each)
+- **`periodo-X/canvas/generar_qti.py`**: Simplified per-period conversion scripts (44 lines each)
 - **`txttoqti`**: Direct use of txttoqti v0.4.0 for QTI conversion
 - **Question banks**: Use `ANSWER:` format for txttoqti compatibility
 
-### Block Structure Pattern
-Each evaluation block (`bloque-1/`, `bloque-2/`, `bloque-3/`) follows this structure:
+### Period Structure Pattern
+Each evaluation period (`periodo-1/`, `periodo-2/`, `periodo-3/`) follows this structure:
 ```
-bloque-X/
+periodo-X/
 ├── canvas/
-│   ├── banco-preguntas-bloqueX.txt    # Main question bank (ANSWER: format)
-│   ├── preguntas-bloque-X.txt         # Symlink to main file
+│   ├── banco-preguntas-periodoX.txt    # Main question bank (ANSWER: format)
+│   ├── preguntas-periodo-X.txt         # Symlink to main file
 │   ├── generar_qti.py                 # Simple conversion script (44 lines)
-│   └── bloque-X-qti.zip               # Generated QTI package
+│   └── periodo-X-qti.zip               # Generated QTI package
 ├── caso-practico/                     # Practical case studies
 ├── datasets/                          # Data files for evaluations
 └── rubricas/                          # Evaluation rubrics
@@ -106,7 +106,7 @@ ANSWER: B
 ### File Discovery Pattern
 - Question files are discovered via glob patterns: `*.txt` in canvas directories
 - Log files and temporary files are automatically filtered out
-- Symlinks like `preguntas-bloque-X.txt` → `banco-preguntas-bloqueX.txt` are supported
+- Symlinks like `preguntas-periodo-X.txt` → `banco-preguntas-periodoX.txt` are supported
 
 ## Security Considerations
 
@@ -118,9 +118,9 @@ ANSWER: B
 ## Working with the Codebase
 
 ### When Modifying Question Banks
-1. Edit the `.txt` files in `bloque-X/canvas/` directories
+1. Edit the `.txt` files in `periodo-X/canvas/` directories
 2. Ensure questions use `ANSWER:` format (not `RESPUESTA:`)
-3. Test conversion: `txttoqti -i bloque-X/canvas/banco-preguntas-bloqueX.txt -o test.zip`
+3. Test conversion: `txttoqti -i periodo-X/canvas/banco-preguntas-periodoX.txt -o test.zip`
 4. Verify QTI output before committing
 
 ### When Extending Functionality

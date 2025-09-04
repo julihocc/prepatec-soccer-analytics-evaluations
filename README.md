@@ -14,43 +14,43 @@
 
 ```
  EVALUACIÓN COMPLETA DEL CURSO
-├── Actividad 1 (15%) - Examen Canvas Bloque 1
-├── Actividad 2 (15%) - Caso Práctico Bloque 1
-├── Actividad 3 (15%) - Examen Canvas Bloque 2
-├── Actividad 4 (15%) - Caso Práctico Bloque 2
-├── Actividad 5 (15%) - Examen / Quiz Bloque 3 (Canvas / evaluación teórica ML básico)
-├── Actividad 6 (25%) - Caso Práctico Bloque 3 (proyecto predictivo individual)
+├── Actividad 1 (15%) - Examen Canvas Período 1
+├── Actividad 2 (15%) - Caso Práctico Período 1
+├── Actividad 3 (15%) - Examen Canvas Período 2
+├── Actividad 4 (15%) - Caso Práctico Período 2
+├── Actividad 5 (15%) - Examen / Quiz Período 3 (Canvas / evaluación teórica ML básico)
+├── Actividad 6 (25%) - Caso Práctico Período 3 (proyecto predictivo individual)
 ```
 
 ---
 
-## Estructura por Bloques
+## Estructura por Períodos
 
-### [Bloque 1](bloque-1/) - Python Fundamentals (30%)
+### [Período 1](periodo-1/) - Python Fundamentals (30%)
 
 **Semanas 1-5: Fundamentos de Programación**
 
-- **[Canvas](bloque-1/canvas/):** 70 preguntas sobre fundamentos Python (15%)
-- **[Caso Práctico](bloque-1/caso-practico/):** Análisis de rendimiento de club (15%)
-- **[Rúbricas](bloque-1/rubricas/):** Criterios específicos del bloque
+- **[Canvas](periodo-1/canvas/):** 70 preguntas sobre fundamentos Python (15%)
+- **[Caso Práctico](periodo-1/caso-practico/):** Análisis de rendimiento de club (15%)
+- **[Rúbricas](periodo-1/rubricas/):** Criterios específicos del período
 - **Modalidad:** Examen individual + proyecto colaborativo (3-4 estudiantes)
 
-### [Bloque 2](bloque-2/) - Exploración de Datos (30%)  
+### [Período 2](periodo-2/) - Exploración de Datos (30%)  
 
 **Semanas 6-10: Análisis y Visualización de Datos Deportivos**
 
-- **[Canvas](bloque-2/canvas/):** 75 preguntas sobre exploración de datos (15%)
-- **[Caso Práctico](bloque-2/caso-practico/):** Sistema de scouting avanzado (15%)
-- **[Rúbricas](bloque-2/rubricas/):** Criterios específicos del bloque
+- **[Canvas](periodo-2/canvas/):** 75 preguntas sobre exploración de datos (15%)
+- **[Caso Práctico](periodo-2/caso-practico/):** Sistema de scouting avanzado (15%)
+- **[Rúbricas](periodo-2/rubricas/):** Criterios específicos del período
 - **Modalidad:** Examen individual + proyecto colaborativo (3-4 estudiantes)
 
-### [Bloque 3](bloque-3/) - Modelado Predictivo (40%)
+### [Período 3](periodo-3/) - Modelado Predictivo (40%)
 
 **Semanas 15-16: Integración de Competencias**
 
 - **Quiz ML Básico:** 15%
-- **Caso Práctico:** `bloque-3/caso-practico/caso-bloque3.md` (25%)
-- **Rúbrica:** Integrada en `bloque-3/README.md`
+- **Caso Práctico:** `periodo-3/caso-practico/caso-periodo3.md` (25%)
+- **Rúbrica:** Integrada en `periodo-3/README.md`
 - **Modalidad:** Individual
 
 ---
@@ -73,9 +73,9 @@
 
 ### Progresión Lógica
 
-- **Bloque 1:** Fundamentos sólidos de programación
-- **Bloque 2:** Aplicación a exploración de datos deportivos
-- **Bloque 3:** Integración en proyecto predictivo avanzado
+- **Período 1:** Fundamentos sólidos de programación
+- **Período 2:** Aplicación a exploración de datos deportivos
+- **Período 3:** Integración en proyecto predictivo avanzado
 
 ---
 
@@ -121,7 +121,7 @@
 ### Configuración Técnica
 
 - **QTI Generation:** txttoqti v0.4.0 para conversión automática a Canvas
-- **Conversión Simplificada:** `./convert-all.sh` o scripts individuales por bloque  
+- **Conversión Simplificada:** `./convert-all.sh` o scripts individuales por período  
 - **Datasets:** Datos deportivos reales y sintéticos preparados
 - **Templates:** Estructuras base para proyectos
 - **Herramientas:** Python, Jupyter, pandas, scikit-learn, seaborn
@@ -131,13 +131,13 @@
 # Instalar dependencia
 pip install txttoqti>=0.4.0
 
-# Convertir todos los bloques
+# Convertir todos los períodos
 ./convert-all.sh
 
 # O convertir individualmente
-cd bloque-1/canvas && python3 generar_qti.py
-cd bloque-2/canvas && python3 generar_qti.py
-cd bloque-3/canvas && python3 generar_qti.py
+cd periodo-1/canvas && python3 generar_qti.py
+cd periodo-2/canvas && python3 generar_qti.py
+cd periodo-3/canvas && python3 generar_qti.py
 ```
 
 ### Soporte Pedagógico

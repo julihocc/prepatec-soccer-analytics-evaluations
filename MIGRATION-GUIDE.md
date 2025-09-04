@@ -54,8 +54,8 @@ cd evaluaciones && pip install txttoqti>=0.4.0  # Instalar dependencias
 ./convert-all.sh                              # Generar archivos QTI
 
 # Comandos simplificados
-./convert-all.sh                    # Conversión de todos los bloques
-python3 bloque-X/canvas/generar_qti.py  # Conversión individual
+./convert-all.sh                    # Conversión de todos los períodos
+python3 periodo-X/canvas/generar_qti.py  # Conversión individual
 txttoqti -i input.txt -o output.zip     # Uso directo
 ```
 
@@ -110,7 +110,7 @@ eval-validate --verbose
 
 # 4. Commit y push al repo privado
 git add .
-git commit -m "feat: add nuevas preguntas bloque-2"
+git commit -m "feat: add nuevas preguntas período-2"
 git push origin feature/nuevo-banco-preguntas
 
 # 5. Actualizar referencia en repo principal
@@ -127,9 +127,9 @@ Reemplaza los scripts individuales con interfaz unificada:
 
 ```bash
 # Antes (múltiples scripts)
-cd evaluaciones/bloque-1/canvas && python generar_qti.py
-cd evaluaciones/bloque-2/canvas && python generar_qti.py
-cd evaluaciones/bloque-3/canvas && python generar_qti.py
+cd evaluaciones/periodo-1/canvas && python generar_qti.py
+cd evaluaciones/periodo-2/canvas && python generar_qti.py
+cd evaluaciones/periodo-3/canvas && python generar_qti.py
 
 # Después (comando unificado)
 eval-qti --convert-all
@@ -143,19 +143,19 @@ Nueva herramienta para verificar integridad:
 # Validar formato de todas las preguntas
 eval-validate
 
-# Validar bloque específico con detalles
-eval-validate --bloque bloque-2 --verbose
+# Validar período específico con detalles
+eval-validate --periodo periodo-2 --verbose
 
 # Output ejemplo:
 # 🔍 Validador de Evaluaciones
 # ==============================
-# 📁 Validando BLOQUE-2...
-# ✅ BLOQUE-2: Sin errores detectados
+# 📁 Validando PERÍODO-2...
+# ✅ PERÍODO-2: Sin errores detectados
 ```
 
 ### Conversor en Lotes (`eval-batch`)
 
-Procesamiento eficiente de múltiples bloques:
+Procesamiento eficiente de múltiples períodos:
 
 ```bash
 # Conversión paralela (por defecto)
@@ -164,8 +164,8 @@ eval-batch
 # Conversión secuencial para debugging
 eval-batch --sequential --verbose
 
-# Bloques específicos con fuerza
-eval-batch --bloques bloque-1 bloque-3 --force
+# Períodos específicos con fuerza
+eval-batch --periodos periodo-1 periodo-3 --force
 ```
 
 ## 📋 Resolución de Problemas
@@ -248,9 +248,9 @@ eval-qti --status  # ✅ Todo listo
 
 ```bash
 # Modificar preguntas
-nano bloque-1/canvas/banco-preguntas-bloque1.txt
+nano periodo-1/canvas/banco-preguntas-periodo1.txt
 eval-validate  # Verificar formato
-eval-qti --path bloque-1  # Generar QTI
+eval-qti --path periodo-1  # Generar QTI
 ```
 
 ### Preparación Semestre

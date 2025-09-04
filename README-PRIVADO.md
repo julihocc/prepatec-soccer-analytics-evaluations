@@ -56,16 +56,16 @@ txttoqti --help
 ### 1. Conversión Automática de QTI
 
 ```bash
-# Convertir todos los bloques (opción recomendada)
+# Convertir todos los períodos (opción recomendada)
 ./convert-all.sh
 
-# Convertir bloques individuales
-cd bloque-1/canvas && python3 generar_qti.py
-cd bloque-2/canvas && python3 generar_qti.py  
-cd bloque-3/canvas && python3 generar_qti.py
+# Convertir períodos individuales
+cd periodo-1/canvas && python3 generar_qti.py
+cd periodo-2/canvas && python3 generar_qti.py  
+cd periodo-3/canvas && python3 generar_qti.py
 
 # Uso directo de txttoqti
-txttoqti -i bloque-1/canvas/banco-preguntas-bloque1.txt -o bloque-1.zip
+txttoqti -i periodo-1/canvas/banco-preguntas-periodo1.txt -o periodo-1.zip
 ```
 
 ### 2. Validación Automática
@@ -91,16 +91,16 @@ ciencia-datos-futbol-evaluaciones/
 │   ├── cli.py                    # CLI principal unificado
 │   ├── validator.py              # Validador de formatos
 │   └── batch_converter.py        # Conversor en lotes
-├── 📂 bloque-1/                  # Evaluaciones Bloque 1 (Semanas 1-5)
+├── 📂 periodo-1/                  # Evaluaciones Período 1 (Semanas 1-5)
 │   ├── canvas/                   # Bancos de preguntas Canvas
-│   │   ├── banco-preguntas-bloque1.txt
+│   │   ├── banco-preguntas-periodo1.txt
 │   │   └── generar_qti.py        # Wrapper compatibilidad
 │   ├── caso-practico/            # Casos prácticos colaborativos
 │   ├── datasets/                 # Datos para evaluaciones
 │   └── rubricas/                 # Criterios de evaluación
-├── 📂 bloque-2/                  # Evaluaciones Bloque 2 (Semanas 6-10)
+├── 📂 periodo-2/                  # Evaluaciones Período 2 (Semanas 6-10)
 │   └── [estructura idéntica]
-└── 📂 bloque-3/                  # Evaluaciones Bloque 3 (Semanas 11-15)
+└── 📂 periodo-3/                  # Evaluaciones Período 3 (Semanas 11-15)
     └── [estructura idéntica]
 ```
 
@@ -113,13 +113,13 @@ ciencia-datos-futbol-evaluaciones/
 1. **Editar preguntas:**
    ```bash
    # Editar banco de preguntas
-   nano bloque-1/canvas/banco-preguntas-bloque1.txt
+   nano periodo-1/canvas/banco-preguntas-periodo1.txt
    
    # Validar formato
-   eval-validate --bloque bloque-1
+   eval-validate --periodo periodo-1
    
    # Generar QTI
-   eval-qti --path bloque-1
+   eval-qti --path periodo-1
    ```
 
 2. **Actualizar casos prácticos:**
@@ -145,7 +145,7 @@ ciencia-datos-futbol-evaluaciones/
 3. **Commit y push:**
    ```bash
    git add .
-   git commit -m "update: evaluaciones bloque-X - [descripción]"
+   git commit -m "update: evaluaciones período-X - [descripción]"
    git push origin main
    ```
 
@@ -168,8 +168,8 @@ Este sistema utiliza **txttoqti v0.3.0** con extensiones educativas:
 ```bash
 # Comando nativo (también disponible)
 txttoqti-edu                    # Auto-detección global
-txttoqti-edu --status          # Estado de todos los bloques
-txttoqti-edu --path bloque-2   # Bloque específico
+txttoqti-edu --status          # Estado de todos los períodos
+txttoqti-edu --path periodo-2   # Período específico
 ```
 
 ---
@@ -212,12 +212,12 @@ eval-qti --status
 # Ejemplo de salida:
 # 🎯 Sistema de Evaluaciones - Estado Global
 # ==================================================
-# 📁 BLOQUE-1
+# 📁 PERÍODO-1
 #    Archivos TXT: 1
 #    Archivos ZIP: 1  
 #    Estado: ✅ Actualizado
 # 
-# 📁 BLOQUE-2
+# 📁 PERÍODO-2
 #    Archivos TXT: 1
 #    Archivos ZIP: 0
 #    Estado: ⚠️  Pendiente
@@ -251,7 +251,7 @@ pip install git+https://github.com/julihocc/txttoqti.git@v0.3.0
 #### Formato de preguntas incorrecto
 ```bash
 # Usar validador para identificar errores
-eval-validate --bloque bloque-X --verbose
+eval-validate --periodo periodo-X --verbose
 
 # Formato esperado:
 # Q1: ¿Pregunta aquí?

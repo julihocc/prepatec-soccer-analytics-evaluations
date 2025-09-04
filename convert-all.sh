@@ -18,29 +18,29 @@ if ! command -v txttoqti &> /dev/null; then
     exit 1
 fi
 
-# Convert each block
-for bloque in bloque-{1,2,3}; do
-    if [ -d "$bloque/canvas" ]; then
+# Convert each period
+for periodo in periodo-{1,2,3}; do
+    if [ -d "$periodo/canvas" ]; then
         # Find the input file
-        input_file=$(ls "$bloque/canvas/banco-preguntas-"*.txt 2>/dev/null | head -1)
-        output_file="$bloque/canvas/$bloque-qti.zip"
+        input_file=$(ls "$periodo/canvas/banco-preguntas-"*.txt 2>/dev/null | head -1)
+        output_file="$periodo/canvas/$periodo-qti.zip"
         
         if [ -n "$input_file" ]; then
-            echo "📝 Converting $bloque..."
+            echo "📝 Converting $periodo..."
             if txttoqti -i "$input_file" -o "$output_file" 2>/dev/null; then
                 echo "   ✅ $output_file created successfully"
             else
-                echo "   ❌ Failed to convert $bloque"
+                echo "   ❌ Failed to convert $periodo"
                 exit 1
             fi
         else
-            echo "   ⚠️  No question file found in $bloque/canvas"
+            echo "   ⚠️  No question file found in $periodo/canvas"
         fi
     else
-        echo "   ⚠️  Directory $bloque/canvas not found"
+        echo "   ⚠️  Directory $periodo/canvas not found"
     fi
 done
 
 echo ""
 echo "🎉 All conversions completed successfully!"
-echo "📁 QTI files are in each bloque's canvas directory"
+echo "📁 QTI files are in each período's canvas directory"

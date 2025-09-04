@@ -7,15 +7,15 @@ Educational assessment system for "Ciencia de Datos Aplicada al Fútbol" course 
 
 ## Architecture Patterns
 
-### Block Structure Pattern
-Each evaluation block follows this structure:
+### Period Structure Pattern
+Each evaluation period follows this structure:
 ```
-bloque-X/
+periodo-X/
 ├── canvas/
-│   ├── banco-preguntas-bloqueX.txt    # Main question bank (ANSWER: format)
-│   ├── preguntas-bloque-X.txt         # Symlink to main file
+│   ├── banco-preguntas-periodoX.txt    # Main question bank (ANSWER: format)
+│   ├── preguntas-periodo-X.txt         # Symlink to main file
 │   ├── generar_qti.py                 # Simple conversion script (44 lines)
-│   └── bloque-X-qti.zip               # Generated QTI package
+│   └── periodo-X-qti.zip               # Generated QTI package
 ├── caso-practico/                     # Practical case studies
 ├── datasets/                          # Data files for evaluations
 └── solucion-caso-practico/            # Solution files (confidential)
@@ -28,7 +28,7 @@ Simple, direct usage of txttoqti v0.4.0:
 ./convert-all.sh
 
 # Individual conversion
-cd bloque-X/canvas && python3 generar_qti.py
+cd periodo-X/canvas && python3 generar_qti.py
 
 # Direct txttoqti usage
 txttoqti -i input.txt -o output.zip
@@ -60,22 +60,22 @@ pip install txttoqti>=0.4.0
 
 ### Core Conversion Commands
 ```bash
-# Convert all blocks to QTI
+# Convert all periods to QTI
 ./convert-all.sh
 
-# Convert individual blocks
-cd bloque-1/canvas && python3 generar_qti.py
-cd bloque-2/canvas && python3 generar_qti.py
-cd bloque-3/canvas && python3 generar_qti.py
+# Convert individual periods
+cd periodo-1/canvas && python3 generar_qti.py
+cd periodo-2/canvas && python3 generar_qti.py
+cd periodo-3/canvas && python3 generar_qti.py
 
 # Direct txttoqti usage
-txttoqti -i bloque-1/canvas/banco-preguntas-bloque1.txt -o bloque-1.zip
+txttoqti -i periodo-1/canvas/banco-preguntas-periodo1.txt -o periodo-1.zip
 ```
 
 ### Code Quality Commands
 ```bash
 # Code formatting
-black evaluaciones/ bloque-*/canvas/generar_qti.py
+black evaluaciones/ periodo-*/canvas/generar_qti.py
 
 # Linting
 ruff check evaluaciones/
@@ -89,9 +89,9 @@ pytest
 ### Parallel Processing Pattern
 Use `concurrent.futures.ThreadPoolExecutor` for batch operations:
 ```python
-def convert_parallel(bloques: List[str], max_workers: int = 3):
+def convert_parallel(periodos: List[str], max_workers: int = 3):
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {executor.submit(convert_single_block, bloque): bloque for bloque in bloques}
+        futures = {executor.submit(convert_single_period, periodo): periodo for periodo in periodos}
         for future in concurrent.futures.as_completed(futures):
             # Process results as they complete
 ```
@@ -107,7 +107,7 @@ txt_files = list(canvas_dir.glob("*.txt"))
 Validate existence before processing:
 ```python
 if not canvas_dir.exists():
-    return bloque, False, f"Directorio canvas no encontrado en {bloque}"
+    return periodo, False, f"Directorio canvas no encontrado en {periodo}"
 ```
 
 ## Integration Points
@@ -132,23 +132,23 @@ if not canvas_dir.exists():
 - `.gitignore` excludes temporary conversion files
 
 ### File Handling
-- Respect symlinks (e.g., `preguntas-bloque-X.txt` → `banco-preguntas-bloqueX.txt`)
+- Respect symlinks (e.g., `preguntas-periodo-X.txt` → `banco-preguntas-periodoX.txt`)
 - Handle UTF-8 encoding for Spanish content
 - Preserve file modification times for change detection
 
 ## Common Patterns to Follow
 
-### When Adding New Blocks
-1. Create `bloque-X/` directory structure
-2. Add question bank in `canvas/banco-preguntas-bloqueX.txt`
-3. Create symlink `preguntas-bloque-X.txt` → main file
+### When Adding New Periods
+1. Create `periodo-X/` directory structure
+2. Add question bank in `canvas/banco-preguntas-periodoX.txt`
+3. Create symlink `preguntas-periodo-X.txt` → main file
 4. Add `generar_qti.py` wrapper script
-5. Update CLI tools to include new block
+5. Update CLI tools to include new period
 
 ### When Modifying Question Banks
-1. Edit `.txt` files in `bloque-X/canvas/` directories
+1. Edit `.txt` files in `periodo-X/canvas/` directories
 2. Run `txttoqti validation` to check format compliance
-3. Use `python3 bloque-X/canvas/generar_qti.py` to test conversion
+3. Use `python3 periodo-X/canvas/generar_qti.py` to test conversion
 4. Verify QTI output before committing
 
 ### When Extending CLI Tools
@@ -173,6 +173,6 @@ pip show txttoqti
 # Verify virtual environment
 which txttoqti-edu
 
-# Test single block conversion
-python3 bloque-1/canvas/generar_qti.py
+# Test single period conversion
+python3 periodo-1/canvas/generar_qti.py
 ```
