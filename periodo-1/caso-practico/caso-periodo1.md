@@ -104,9 +104,11 @@ Realizar análisis básicos usando las estructuras de datos:
 
 **Pregunta de reflexión:** ¿Qué limitación notas al manejar varias listas separadas para analizar partidos? ¿Cómo crees que esto afectaría si tuvieras 100 partidos?
 
-### Parte 2: Análisis y Métricas Básicas (30 puntos)
+---
 
-#### 2.1 Estadísticas Básicas del Equipo (10 puntos)
+### Parte 2: Análisis y Métricas Básicas (40 puntos)
+
+#### 2.1 Estadísticas Básicas del Equipo (20 puntos)
 
 Usar las funciones creadas para realizar análisis estadístico básico:
 
@@ -117,7 +119,7 @@ Usar las funciones creadas para realizar análisis estadístico básico:
 
 **Pregunta de reflexión:** ¿El promedio de goles refleja toda la historia del rendimiento ofensivo? ¿Qué información importante NO te dice este número?
 
-#### 2.2 Análisis de Jugadores (10 puntos)  
+#### 2.2 Análisis de Jugadores (20 puntos)  
 
 Aplicar análisis usando diccionarios para entender el rendimiento individual:
 
@@ -128,51 +130,24 @@ Aplicar análisis usando diccionarios para entender el rendimiento individual:
 
 **Pregunta de reflexión:** ¿Ser el máximo goleador implica automáticamente mayor impacto para el equipo? ¿Qué otros datos considerarías para evaluar la contribución real de un jugador?
 
-#### 2.3 Introducción a pandas (10 puntos)
+---
 
-Construir un DataFrame simple para unificar los datos y comparar ventajas respecto a listas:
-
-- Importar pandas y crear un DataFrame con los datos de partidos
-- Incluir columnas: número de partido, resultado, goles a favor, goles en contra
-- Calcular promedio de goles usando métodos de pandas
-- Comparar la facilidad de uso entre DataFrame y listas separadas
-- Mostrar las primeras filas del DataFrame creado
-
-**Pregunta de reflexión:** ¿Qué ventaja concreta te da el DataFrame frente a manejar tres listas independientes? ¿En qué situaciones crees que esta diferencia sería aún más importante?
-
-### Parte 3: Visualización e Interpretación (30 puntos)
+### Parte 3: Visualización e Interpretación (20 puntos)
 
 #### 3.1 Visualización Básica (15 puntos)
 
-Crear visualizaciones profesionales para comunicar los hallazgos:
+Crear una visualización simple para comunicar los hallazgos:
 
-**a) Gráfico de barras - Rendimiento por partido:**
+**Gráfico de barras - Distribución de resultados:**
 
-- Crear gráfico de barras comparando goles a favor y en contra por partido
-- Usar matplotlib para generar el gráfico con etiquetas claras
-- Incluir título, etiquetas de ejes y leyenda profesional
-- Configurar colores y transparencia apropiados
+- Crear gráfico de barras que muestre la cantidad de victorias, empates y derrotas
+- Usar matplotlib con etiquetas claras y colores apropiados
+- Incluir título descriptivo y números en las barras
+- Agregar interpretación básica de lo que muestra el gráfico
 
-**b) Comparación de resultados:**
+**Pregunta de reflexión:** ¿Qué patrón observas en los resultados del equipo? ¿Considera que el equipo tuvo una temporada exitosa según estos datos?
 
-- Crear gráfico que muestre la distribución de victorias, empates y derrotas
-- Usar gráfico de barras o pie chart para mostrar proporciones
-- Incluir números absolutos y porcentajes en la visualización
-
-**Pregunta de reflexión:** ¿En qué partidos la diferencia de goles fue mayor? ¿Qué hipótesis podrías proponer sobre el rendimiento del equipo en esos momentos específicos?
-
-#### 3.2 Análisis por Posición (10 puntos)
-
-Analizar el rendimiento de jugadores por posición:
-
-- Agrupar jugadores por posición y calcular estadísticas básicas
-- Crear visualización mostrando goles promedio por posición
-- Identificar qué posiciones contribuyen más al ataque
-- Comparar el rendimiento individual vs grupal
-
-**Pregunta de reflexión:** ¿Los delanteros son los únicos responsables de los goles? ¿Qué te dice la distribución de goles por posición sobre el estilo de juego del equipo?
-
-#### 3.3 Interpretación y Comunicación (5 puntos)
+#### 3.2 Interpretación y Comunicación (5 puntos)
 
 Preparar una síntesis clara de los hallazgos:
 
@@ -193,7 +168,7 @@ Al completar todas las tareas técnicas, incluye en tu notebook una sección de 
 
 1. ¿Qué métrica adicional incluirías para evaluar solidez defensiva y por qué?
 2. ¿Qué limitación tiene usar solo 10 partidos para conclusiones?
-3. ¿Qué beneficio te dio el DataFrame frente a listas separadas?
+3. ¿Qué limitación notas al usar listas separadas para análisis complejos?
 4. ¿Qué mostrarías a un entrenador para convencerlo de mejorar el ataque?
 5. ¿Cuál sería tu siguiente paso de análisis en el Período 2?
 
@@ -246,8 +221,8 @@ Al completar todas las tareas técnicas, incluye en tu notebook una sección de 
 | Componente | Puntos | Criterios de Evaluación |
 |------------|--------|------------------------|
 | **Fundamentos y Funciones** | 40 | Bucles y conteo (10) + Funciones implementadas (20) + Listas y diccionarios (10) |
-| **Análisis y Métricas Básicas** | 30 | Estadísticas básicas (10) + Análisis de jugadores (10) + Introducción pandas (10) |
-| **Visualización e Interpretación** | 20 | Visualización básica (15) + Análisis por posición (5) |
+| **Análisis y Métricas Básicas** | 40 | Estadísticas básicas (20) + Análisis de jugadores (20) |
+| **Visualización e Interpretación** | 20 | Visualización básica (15) + Interpretación y comunicación (5) |
 | **Comunicación y Documentación** | 10 | Video de exposición (7) + Reflexión final y comentarios (3) + Enlace en notebook |
 
 ### Criterios de Desempeño por Componente
@@ -289,38 +264,38 @@ Al completar todas las tareas técnicas, incluye en tu notebook una sección de 
 - Errores graves de sintaxis
 - Funciones faltantes o no implementadas
 
-#### 2. Análisis y Métricas Básicas (30 puntos)
+#### 2. Análisis y Métricas Básicas (40 puntos)
 
-**Sobresaliente (30 puntos ~ 100%):**
+**Sobresaliente (40 puntos ~ 100%):**
 
-- Análisis de nivel profesional: DataFrame bien diseñado, con manejo de tipos, limpieza y comparaciones relevantes
-- Estadísticas calculadas con verificaciones y visualizaciones de apoyo; interpretación profunda y conectada con contexto futbolístico
-- Análisis de jugadores por posición exhaustivo, con discusión sobre sesgos y limitaciones de los datos
-- Ventajas de pandas explicadas con ejemplos reproduci-bles que muestran eficiencia y reproducibilidad
+- Análisis de nivel profesional: cálculos precisos con verificaciones y validaciones apropiadas
+- Estadísticas calculadas correctamente con interpretación profunda y conectada con contexto futbolístico
+- Análisis de jugadores exhaustivo, con discusión sobre patrones y limitaciones de los datos
+- Uso eficiente de estructuras de datos (listas y diccionarios) con ejemplos claros
 - Resultados presentados de forma clara, replicable y listos para comunicación a terceros
 
-**Competente (27 puntos ~ 90%):**
+**Competente (36 puntos ~ 90%):**
 
-- DataFrame creado correctamente y usado para la mayoría de los cálculos; pueden faltar comparaciones secundarias
+- Cálculos realizados correctamente; pueden faltar algunas validaciones secundarias
 - Estadísticas calculadas correctamente con interpretaciones claras pero no exhaustivas
-- Análisis de jugadores por posición presente y correcto, con pequeñas omisiones en la discusión
-- Ventajas de pandas expuestas; podría mejorarse la presentación de ejemplos
+- Análisis de jugadores presente y correcto, con pequeñas omisiones en la discusión
+- Uso adecuado de estructuras de datos; podría mejorarse la presentación
 
-**Suficiente (21 puntos ~ 70%):**
+**Suficiente (28 puntos ~ 70%):**
 
-- DataFrame funcional con análisis básico
+- Cálculos básicos funcionales con análisis simple
 - Estadísticas calculadas correctamente
 - Interpretación superficial pero presente
 
-**Insuficiente (9 puntos ~ 30%):**
+**Insuficiente (12 puntos ~ 30%):**
 
-- Intento de DataFrame o análisis estadístico
+- Intento de cálculos o análisis estadístico
 - Resultados parcialmente correctos
 - Poca interpretación o análisis
 
 **No presentó (0 puntos):**
 
-- No logra crear DataFrame o realizar análisis
+- No logra realizar cálculos o análisis
 - Sin estadísticas o cálculos incorrectos
 - Sin interpretación de resultados
 
@@ -328,33 +303,33 @@ Al completar todas las tareas técnicas, incluye en tu notebook una sección de 
 
 **Sobresaliente (20 puntos ~ 100%):**
 
-- Visualizaciones con calidad publicable: etiquetado impecable, escalas adecuadas y atención a accesibilidad y legibilidad
-- Integración entre visualizaciones y narrativa: cada gráfico soporta una conclusión clara y accionable para entrenamiento o táctica
-- Análisis por posición profundo, con comparaciones y métricas complementarias que van más allá de la media
-- Interpretaciones y recomendaciones fundamentadas, con posibles acciones concretas y métricas para seguimiento
+- Visualización con calidad profesional: etiquetado claro, colores apropiados y fácil interpretación
+- Gráfico soporta conclusiones claras sobre el rendimiento del equipo
+- Interpretaciones y recomendaciones bien fundamentadas, con acciones concretas sugeridas
+- Conexión clara entre los datos mostrados y las conclusiones presentadas
 
 **Competente (18 puntos ~ 90%):**
 
-- Gráficos bien implementados con títulos y etiquetas; pueden mejorarse detalles estéticos o la legibilidad fina
-- Visualizaciones claras y útiles para la interpretación, aunque falta un punto adicional de análisis que las conecte con estrategia de equipo
-- Análisis por posición desarrollado, con visualizaciones correctas pero sin comparación avanzada
-- Recomendaciones basadas en datos sólidas pero breves
+- Gráfico bien implementado con títulos y etiquetas; pueden mejorarse algunos detalles estéticos
+- Visualización clara y útil para la interpretación básica
+- Interpretaciones correctas aunque breves
+- Recomendaciones basadas en datos presentes
 
 **Suficiente (14 puntos ~ 70%):**
 
-- Gráficos básicos pero funcionales
-- Interpretación superficial
-- Algunas recomendaciones presentes
+- Gráfico básico pero funcional
+- Interpretación superficial pero presente
+- Algunas recomendaciones básicas
 
 **Insuficiente (6 puntos ~ 30%):**
 
-- Visualizaciones básicas o incompletas
+- Visualización básica o incompleta
 - Poca interpretación
 - Recomendaciones sin fundamento
 
 **No presentó (0 puntos):**
 
-- Sin visualizaciones o no funcionan
+- Sin visualización o no funciona
 - Sin interpretación o análisis
 - Sin recomendaciones
 
@@ -396,9 +371,9 @@ Al completar todas las tareas técnicas, incluye en tu notebook una sección de 
 
 | Componente | Puntos Máximos | Sobresaliente (~100%) | Competente (~90%) | Suficiente (~70%) | Insuficiente (~30%) | No presentó (0%) |
 |------------|-----------------|-------------------|-------------------|---------------------|------------------|
-| Fundamentos y Funciones | 40 | 40 puntos | 28 puntos | 12 puntos | 0 puntos |
-| Análisis y Métricas Básicas | 30 | 30 puntos | 21 puntos | 9 puntos | 0 puntos |
-| Visualización e Interpretación | 20 | 20 puntos | 14 puntos | 6 puntos | 0 puntos |
+| Fundamentos y Funciones | 40 | 40 puntos | 36 puntos | 28 puntos | 12 puntos | 0 puntos |
+| Análisis y Métricas Básicas | 40 | 40 puntos | 36 puntos | 28 puntos | 12 puntos | 0 puntos |
+| Visualización e Interpretación | 20 | 20 puntos | 18 puntos | 14 puntos | 6 puntos | 0 puntos |
 | Comunicación y Documentación | 10 | 10 puntos | 7 puntos | 3 puntos | 0 puntos |
 | **TOTAL** | **100** | **100 puntos** | **70 puntos** | **30 puntos** | **0 puntos** |
 
@@ -406,7 +381,7 @@ Al completar todas las tareas técnicas, incluye en tu notebook una sección de 
 
 - Notebook ejecuta sin errores graves
 - Al menos una función implementada correctamente
-- DataFrame básico creado y funcionando
+- Análisis básico con listas y diccionarios funcionando
 - Video subido a YouTube con participación de todo el equipo
 - Duración del video menor o igual 20 minutos (máximo absoluto)
 
@@ -446,7 +421,7 @@ Al completar todas las tareas técnicas, incluye en tu notebook una sección de 
 
 - **Persona 1**: Fundamentos básicos, bucles y conteo de resultados
 - **Persona 2**: Funciones principales, análisis de jugadores y estadísticas básicas  
-- **Persona 3**: DataFrame, visualizaciones y preparación del video
+- **Persona 3**: Visualizaciones, interpretaciones y preparación del video
 - **Todos**: Participan en interpretaciones y reflexión final
 
 ### Para el Video de Exposición
@@ -479,8 +454,8 @@ Al completar todas las tareas técnicas, incluye en tu notebook una sección de 
 - [ ] Implementé y probé `calcular_puntos`
 - [ ] Implementé y probé `mejor_goleador`
 - [ ] Calculé estadísticas básicas del equipo
-- [ ] Creé DataFrame y expliqué ventajas sobre listas
-- [ ] Generé visualizaciones básicas con títulos y etiquetas
+- [ ] Realicé análisis completo con listas y diccionarios
+- [ ] Generé visualización básica con títulos y etiquetas
 - [ ] Respondí 3 preguntas de reflexión final
 - [ ] Comentarios claros e intencionales en el código
 
