@@ -25,14 +25,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "txttoqti>=0.3.0",
-    "pandas>=2.0.0",
-    "numpy>=1.24.0",
-    "matplotlib>=3.6.0", 
-    "seaborn>=0.12.0",
-    "scikit-learn>=1.2.0",
-    "jupyter>=1.0.0",
-    "ipykernel>=6.0.0",
+    "txttoqti>=0.4.0",
 ]
 
 [project.optional-dependencies]
@@ -42,22 +35,14 @@ dev = [
     "ruff>=0.1.0",
 ]
 
-[project.scripts]
-eval-qti = "evaluaciones.cli:main"
-eval-validate = "evaluaciones.validator:main"
-eval-batch = "evaluaciones.batch_converter:main"
+# No custom scripts needed - use txttoqti directly
 
 [project.urls]
 "Homepage" = "https://github.com/julihocc/ciencia-datos-futbol-evaluaciones"
 "Repository" = "https://github.com/julihocc/ciencia-datos-futbol-evaluaciones"
 "Issues" = "https://github.com/julihocc/ciencia-datos-futbol-evaluaciones/issues"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["evaluaciones*"]
-
-[tool.setuptools.package-data]
-"evaluaciones" = ["**/*.txt", "**/*.py", "**/*.md", "**/*.csv"]
+# No packages to find - simplified to txttoqti dependency only
 
 [tool.black]
 line-length = 88
