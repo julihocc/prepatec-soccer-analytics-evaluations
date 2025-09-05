@@ -2,7 +2,7 @@
 # Dependencias mínimas para sistema evaluativo independiente
 
 # Core QTI conversion
-txttoqti>=0.3.0
+txttoqti>=0.5.0
 
 # Data analysis stack  
 pandas>=2.0.0
