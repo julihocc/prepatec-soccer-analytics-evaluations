@@ -21,22 +21,33 @@ source .venv/bin/activate  # Linux/Mac
 pip install -e .[dev]
 ```
 
+**Note**: This project now requires txttoqti>=0.5.0 for the improved interface.
+
 ### Core Conversion Tools
+
+**New Python API (Recommended)**:
 ```bash
-# Convert all periods to QTI packages (simple script)
-./convert-all.sh
+# Convert all periods using new Python API
+./convert-all.sh --use-python
+# OR directly:
+python3 convert_all_python.py
 
-# Convert individual periods - three options:
-# Option 1: Direct txttoqti
-txttoqti -i periodo-1/canvas/banco-preguntas-periodo1.txt -o periodo-1.zip
-
-# Option 2: Per-period Python scripts (simplified)
+# Convert individual periods using new API
 cd periodo-1/canvas && python3 generar_qti.py
 cd periodo-2/canvas && python3 generar_qti.py  
 cd periodo-3/canvas && python3 generar_qti.py
 
-# Option 3: From any directory
+# From any directory
 python3 periodo-1/canvas/generar_qti.py
+```
+
+**Traditional CLI Interface**:
+```bash
+# Convert all periods using CLI (legacy)
+./convert-all.sh
+
+# Direct txttoqti CLI
+txttoqti -i periodo-1/canvas/banco-preguntas-periodo1.txt -o periodo-1.zip
 ```
 
 ### Testing and Quality Assurance
@@ -54,9 +65,9 @@ pytest
 ## Architecture Overview
 
 ### Core Structure
-- **`convert-all.sh`**: Simple shell script to convert all question banks
-- **`periodo-X/canvas/generar_qti.py`**: Simplified per-period conversion scripts (44 lines each)
-- **`txttoqti`**: Direct use of txttoqti v0.4.0 for QTI conversion
+- **`convert_all_python.py`**: New Python script using txttoqti v0.5.0 API (recommended)
+- **`convert-all.sh`**: Shell script supporting both CLI and Python API modes
+- **`periodo-X/canvas/generar_qti.py`**: Per-period scripts using new Python API (35 lines each)
 - **Question banks**: Use `ANSWER:` format for txttoqti compatibility
 
 ### Period Structure Pattern
@@ -75,7 +86,18 @@ periodo-X/
 
 ### Integration with txttoqti
 
-The system uses **txttoqti v0.4.0** directly:
+The system uses **txttoqti v0.5.0** with both interfaces:
+
+**New Python API (Recommended)**:
+```python
+import txttoqti
+
+# Create converter object and chain methods
+converter = txttoqti.TxtToQti()
+converter.read_txt("questions.txt").save_to_qti("quiz.zip")
+```
+
+**Traditional CLI**:
 - Direct CLI usage: `txttoqti -i input.txt -o output.zip`
 - Native support for the question format: `Q1:` → `A) B) C) D)` → `ANSWER:`
 - Automatic Canvas QTI package generation
@@ -92,16 +114,24 @@ ANSWER: B
 ```
 
 ### Conversion Workflow
-1. **`./convert-all.sh`**: Convert all question banks to QTI format
+
+**Using New Python API (Recommended)**:
+1. **`./convert-all.sh --use-python`**: Convert all using Python API
+2. **`python3 convert_all_python.py`**: Direct Python batch conversion
+3. **Individual conversion**: Use `generar_qti.py` scripts per period
+
+**Using Traditional CLI**:
+1. **`./convert-all.sh`**: Convert all question banks to QTI format  
 2. **`txttoqti -i input.txt -o output.zip`**: Direct conversion of individual files
-3. **Built-in validation**: txttoqti v0.4.0 validates format automatically
+3. **Built-in validation**: txttoqti v0.5.0 validates format automatically
 
 ## Key Implementation Details
 
 ### Simplified Integration
-- Direct use of `txttoqti` CLI for all conversions
-- Simple shell script (`convert-all.sh`) handles batch processing
-- No complex wrappers or custom Python modules needed
+- **New Python API**: Clean, intuitive object-oriented interface
+- **Hybrid approach**: Both Python API and CLI supported via `convert-all.sh`  
+- **No complex wrappers**: Direct use of txttoqti v0.5.0 library
+- **Flexible**: Choose between programmatic API or command-line interface
 
 ### File Discovery Pattern
 - Question files are discovered via glob patterns: `*.txt` in canvas directories
@@ -130,7 +160,7 @@ ANSWER: B
 - Update the conversion script if needed
 
 ### Troubleshooting Common Issues
-- "txttoqti not found": Ensure txttoqti>=0.4.0 is installed (`pip install txttoqti>=0.4.0`)
+- "txttoqti not found": Ensure txttoqti>=0.5.0 is installed (`pip install txttoqti>=0.5.0`)
 - "Input file not found": Check file paths in conversion commands
 - "Multiple choice question has no correct answer": Ensure `ANSWER:` field exactly matches one of the answer options (A, B, C, D)
 - Conversion failures: Use `./convert-all.sh` from project root, or check individual file paths
